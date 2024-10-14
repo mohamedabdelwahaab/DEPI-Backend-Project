@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "default_workspace_image.jpg",
+    default: "",
   },
   isAdmin: {
     type: Boolean,
@@ -49,7 +49,7 @@ function validateUpdateUser(obj) {
   let schema = Joi.object({
     email: Joi.string().email().trim().optional().min(5).max(200),
     password: Joi.string().min(5).max(200).optional().trim(),
-    avatar: Joi.string().optional(),
+    avatar: Joi.string().optional().min(0),
     username: Joi.string().trim().min(3).max(200).optional(),
   });
   return schema.validate(obj);

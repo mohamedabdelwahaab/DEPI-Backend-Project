@@ -6,6 +6,7 @@ const {
   validateCreateTask,
   validateUpdateTask,
 } = require("../models/Task");
+const { Workspace } = require("../models/Workspace");
 
 router.post(
   "/",
@@ -14,6 +15,11 @@ router.post(
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
+
+    const workspace = await Workspace.findById(req.body.workspace);
+
+    if (!workspace)
+      return res.status(400).json({ error: "no workspace with this id" });
     let newTask = new Task({
       workspace: req.body.workspace,
       title: req.body.title,
@@ -26,6 +32,22 @@ router.post(
     const result = await newTask.save();
 
     res.status(201).json(result);
+  })
+);
+
+router.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    const task = await Task.findById(req.query.id);
+    if (!task) return res.status(400).json({ error: "no task with this id" });
+    res.status(200).json(await Task.findById(req.query.id));
+  })
+);
+
+router.get(
+  "/all",
+  asyncHandler(async (req, res) => {
+    res.status(200).json(await Task.find());
   })
 );
 

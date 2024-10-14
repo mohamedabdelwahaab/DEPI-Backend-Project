@@ -29,11 +29,16 @@ function validateCreateWorkspace(obj) {
   return schema.validate(obj);
 }
 
-function validateGetWorkspace(obj) {
+function validateUpdateWorkspace(obj) {
   let schema = Joi.object({
-    user: Joi.string().required(),
+    title: Joi.string().trim().optional().min(3).max(200),
+    image: Joi.string().optional(),
   });
   return schema.validate(obj);
 }
 
-module.exports = { Workspace, validateCreateWorkspace, validateGetWorkspace };
+module.exports = {
+  Workspace,
+  validateCreateWorkspace,
+  validateUpdateWorkspace,
+};
