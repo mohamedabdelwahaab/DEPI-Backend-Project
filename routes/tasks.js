@@ -7,6 +7,7 @@ const {
   validateUpdateTask,
 } = require("../models/Task");
 const { Workspace } = require("../models/Workspace");
+const { User } = require("../models/User");
 
 router.post(
   "/",
@@ -15,13 +16,14 @@ router.post(
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
-
-    const workspace = await Workspace.findById(req.body.workspace);
+    const user = await User.findById(req.body.id);
+    if (!user) return res.status(400).json({ error: "no user with this id" });
+    const workspace = await Workspace.findById(user.currentWorkspace);
 
     if (!workspace)
       return res.status(400).json({ error: "no workspace with this id" });
     let newTask = new Task({
-      workspace: req.body.workspace,
+      workspace: user.currentWorkspace,
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,

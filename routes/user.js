@@ -40,6 +40,7 @@ router.get(
           "username",
           "email",
           "avatar",
+          "currentWorkspace",
           "-_id",
         ])
       );
@@ -62,6 +63,7 @@ router.put(
         password: req.body.password,
         email: req.body.email,
         avatar: req.body.avatar,
+        currentWorkspace: req.body.currentWorkspace,
       },
     });
     return res
@@ -71,6 +73,7 @@ router.put(
           "username",
           "email",
           "avatar",
+          "currentWorkspace",
           "-_id",
         ])
       );

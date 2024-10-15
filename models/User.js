@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  currentWorkspace: {
+    type: String,
+  },
 });
 const User = mongoose.model("User", userSchema);
 
@@ -41,6 +44,7 @@ function validateRegisterUser(obj) {
     avatar: Joi.string().optional(),
     isAdmin: Joi.boolean(),
     username: Joi.string().trim().alphanum().min(3).max(200).required(),
+    currentWorkspace: Joi.any(),
   });
   return schema.validate(obj);
 }
@@ -52,6 +56,7 @@ function validateUpdateUser(obj) {
     password: Joi.string().min(5).max(200).optional().trim(),
     avatar: Joi.string().optional().min(0),
     username: Joi.string().trim().min(3).max(200).optional(),
+    currentWorkspace: Joi.string().optional(),
   });
   return schema.validate(obj);
 }

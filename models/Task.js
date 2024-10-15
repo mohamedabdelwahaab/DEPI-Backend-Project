@@ -40,7 +40,7 @@ const Task = mongoose.model("Task", taskSchema);
 function validateCreateTask(obj) {
   let schema = Joi.object({
     id: Joi.any(),
-    workspace: Joi.string().required(),
+    workspace: Joi.string().optional(),
     title: Joi.string().trim().required().min(3).max(200),
     description: Joi.string().trim().required().min(3).max(200),
     status: Joi.string()
