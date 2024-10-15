@@ -17,12 +17,12 @@ router.post(
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    const user = await User.findById(req.body.user);
+    const user = await User.findById(req.body.id);
 
     if (!user) res.status(400).json({ error: "no user with this id" });
 
     let newWorkspace = new Workspace({
-      user: req.body.user,
+      user: req.body.id,
       title: req.body.title,
       image: req.body.image,
     });
@@ -36,16 +36,10 @@ router.post(
 router.get(
   "/tasks",
   asyncHandler(async (req, res) => {
-    const user = await User.findById(req.query.id);
-    if (!user) return res.status(400).json({ error: "no user with this id" });
-    const workspace = await Workspace.find({ user: req.query.id });
+    const workspace = await Workspace.findById(req.query.id);
     if (!workspace)
-      return res.status(400).json({ error: "no workspace for this user" });
-    res
-      .status(200)
-      .json(
-        await Workspace.find({ user: req.query.id }, ["_id", "title", "image"])
-      );
+      return res.status(400).json({ error: "no workspace with this id" });
+    res.status(200).json(await Task.find({ workspace: workspace._id }));
   })
 );
 

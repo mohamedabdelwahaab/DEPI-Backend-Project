@@ -39,6 +39,7 @@ const Task = mongoose.model("Task", taskSchema);
 
 function validateCreateTask(obj) {
   let schema = Joi.object({
+    id: Joi.any(),
     workspace: Joi.string().required(),
     title: Joi.string().trim().required().min(3).max(200),
     description: Joi.string().trim().required().min(3).max(200),
@@ -53,6 +54,7 @@ function validateCreateTask(obj) {
 
 function validateUpdateTask(obj) {
   let schema = Joi.object({
+    id: Joi.any(),
     title: Joi.string().trim().optional().min(3).max(200),
     description: Joi.string().trim().optional().min(3).max(200),
     status: Joi.string()

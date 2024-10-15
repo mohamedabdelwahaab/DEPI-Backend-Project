@@ -40,13 +40,14 @@ function validateRegisterUser(obj) {
     password: Joi.string().min(5).max(200).required().trim(),
     avatar: Joi.string().optional(),
     isAdmin: Joi.boolean(),
-    username: Joi.string().trim().min(3).max(200).required(),
+    username: Joi.string().trim().alphanum().min(3).max(200).required(),
   });
   return schema.validate(obj);
 }
 
 function validateUpdateUser(obj) {
   let schema = Joi.object({
+    id: Joi.any(),
     email: Joi.string().email().trim().optional().min(5).max(200),
     password: Joi.string().min(5).max(200).optional().trim(),
     avatar: Joi.string().optional().min(0),
@@ -63,19 +64,9 @@ function validateLoginUser(obj) {
   return schema.validate(obj);
 }
 
-function validateGetUser(obj) {
-  let schema = Joi.object({
-    id: Joi.string()
-      .regex(/^[0-9a-fA-F]{24}$/)
-      .required(),
-  });
-  return schema.validate(obj);
-}
-
 module.exports = {
   User,
   validateRegisterUser,
   validateLoginUser,
-  validateGetUser,
   validateUpdateUser,
 };
