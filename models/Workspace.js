@@ -23,7 +23,7 @@ const Workspace = mongoose.model("Workspace", workSpaceSchema);
 function validateCreateWorkspace(obj) {
   let schema = Joi.object({
     title: Joi.string().trim().required().min(3).max(200),
-    user: Joi.string().required(),
+    id: Joi.any(),
     image: Joi.string().optional(),
   });
   return schema.validate(obj);
@@ -31,6 +31,7 @@ function validateCreateWorkspace(obj) {
 
 function validateUpdateWorkspace(obj) {
   let schema = Joi.object({
+    id: Joi.any(),
     title: Joi.string().trim().optional().min(3).max(200),
     image: Joi.string().optional(),
   });
