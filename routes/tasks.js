@@ -61,18 +61,22 @@ router.put(
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    const task = await Task.findByIdAndUpdate(req.query.id, {
-      $set: {
-        workspace: req.body.workspace,
-        title: req.body.title,
-        description: req.body.description,
-        status: req.body.status,
-        created: req.body.created,
-        duo: req.body.duo,
-      },
-    });
-
-    res.status(201).json(task);
+    res.status(201).json(
+      await Task.findByIdAndUpdate(
+        req.query.id,
+        {
+          $set: {
+            workspace: req.body.workspace,
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            created: req.body.created,
+            duo: req.body.duo,
+          },
+        },
+        { new: true }
+      )
+    );
   })
 );
 
